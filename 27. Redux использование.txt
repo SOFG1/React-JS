@@ -1,0 +1,42 @@
+
+
+
+
+		Создание store и наполнение state.
+
+		1) Создаем store.js, которая экспортирует обьект store.
+
+		2) Импортируем reducer-ы.
+
+		3) Создаем state
+
+
+		Пример: 
+
+
+
+
+
+
+////  Store.js	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		import {createStore, combineReducers} from 'redux';
+		// Reducers
+		import profileReducer from './profile-reducer';
+		import messagesReducer from './messages-redcer';
+
+		let reducersPack = combineReducers({
+							profilePage: profileReducer,
+							messagesPage: messagesReducer,
+						});
+
+		let store = createStore(reducersPack);
+
+		export default store
+
+////  Store.js	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	В итоге - reducersPack обьект (создается методом combineReducers), учавствует в создании store.
+	При создании принимает обьект - названиями свойств будут названия разделов в state. А значениями являются reducer-ы.
+	А значением раздела в state будет значение аргумента state в reducer-e при выполнении.

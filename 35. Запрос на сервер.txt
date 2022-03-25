@@ -1,0 +1,9 @@
+
+
+
+	Мы можем делать запросы на сервер(работать с API). Следующим образом:
+
+	import axios from 'axios'
+
+	axios.get('apiUrl')
+	.then(response => this.fillUsers(response.data.users))

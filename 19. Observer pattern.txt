@@ -1,0 +1,43 @@
+
+
+	Теперь у нас только index.js и state.js. Но если мы импортируем render() в state получится циклическая зависимость. 
+
+	Поэтому мы используем callback функции. 
+
+
+
+	Observer Pattern - pattern в реакт, который делает ререндеринг при изменении в state и предотвращает циклическую независимость.
+
+
+	В примере ниже мы экспортировали функцию рендер в state(через импорт) - чтобы вызывать рендер в функциях, которые меняют содержимое state и чтобы предотвратить циклическую зависимость.
+
+	Таким образом мы избавились от render.js
+
+
+
+
+	Пример:
+
+// state.js   ///////////////////////////
+
+	let rerender = () => {console.log("No subscriber yet")}
+
+	export let subscriber = (observer) => rerender = observer
+
+	state = {...}
+
+	export default state
+
+// ./state.js ///////////////////////////
+
+
+
+// index.js   ///////////////////////////
+
+	import state, {subscriber} from './state.js'
+
+	let render = () => { ReactDOM.render(...)}
+
+	subscriber(render)	// Тут мы приравнили функции rerender в state.js к функции render
+
+// ./index.js ///////////////////////////

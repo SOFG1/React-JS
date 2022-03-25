@@ -1,0 +1,26 @@
+
+
+
+			Классовый компонент.
+
+	Функциональный компонент - представляет из себя функцию, которую вызывает реакт и она рендерит содержимое пропсов.
+
+
+	Классовый компонент - представляет из себя дочерний класс класса React.Component, при создании компонента реакт создает обьект данного класса с методами родительского класса, также со своими методами и данными.
+
+	Пример:
+
+	import React from 'react'
+
+	class Users extends React.Component {
+					render() { return ( this.props.users.map(user => <div>{user}</div>) ) }
+					componentDidMount() { 
+							      axios.get('usersApiKey').then(res => this.props.setUsers(res.data.users))
+								}
+	}
+
+
+
+	
+
+	

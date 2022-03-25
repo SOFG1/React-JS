@@ -1,0 +1,126 @@
+
+	RR уже содержит компонент Provider, который будет поставлять store.
+
+		Пример: import {Provider} from 'react-redux';
+			import Store from './redux/store';
+
+			<Provider store={store}>		// Мы создали контекст в котором есть store и этот контекст доступен компоненту <App> и вложенным в него компонентам.
+						<App/>
+			</Provider>
+		
+
+
+
+	RR позволяет создавать контейнерные компоненты удобным способом. Которым будет доступен store через контекст.
+
+		Пример:
+
+			import {connect} from 'react-redux';
+
+			import PresentComponent from './PresentComponent.jsx'
+
+			const ContainerComponent = connect(()=> ({a:1, b:2}), ()=> ({c:3, d:4}))(PresentComponent);
+
+
+			PS - Мы вызываем connect из react-redux. Параметрами задаем функции, которые возвращают обьекты. А свойствами и значениями props - будут слитые свойства и значения заданных функций с обьектами. 
+
+			Т.е. в этом примере обьект пропс-ов(аттрибуты) у нас будет таким - {a:1, b:2, c:3, d:4}. Т.е. обьекты склеиваются...
+
+			Далее вызываем то что возвращает connect при вызове(первом) а в параметре указываем Функциональный компонент, который будет отображен.
+
+
+
+
+			Как мы знаем цель connect-a - Создание контейнреного компонента и доступ к контексту provider-а(store, state). 
+
+			Пример доступа к state с использованием connect :
+
+			import {connect} from 'react-redux';
+			import PresentComponent from './PresentComponent'
+
+			const ContainerComponent = connect((state)=>({posts:state.posts}))(PresentComponent);
+
+	СУТЬ ИСПОЛЬЗОВАНИЯ Provider-а и connect-а - Мы отдаем store провайдеру, а у connect-a, который является контейнерным компонентом, будет доступ к state- через контекст. И не надо прокидывать через props.
+
+
+
+
+
+
+
+	
+	Как мы знаем наши презент. компоненты используют данные из state и callback-и, которые должны вызываться при взаимодействии пользователя.
+
+	Значит при вызове connect-мы будем задавать в параметрах 2 функции - mapStateToProps, mapDispatchToProps:
+
+	- Функция mapStateToProps отвечает за наполнение props-ов контента(данными для отображения) функционального компонента.
+
+	- Функция mapDispatchToProps отвечает за предоставление callback-ов которые будут выполнены при взаимодействии с UI. Эти callback-и выполнят dispatch в конт. компоненте с action-ом и параметрами из презент.компонента.
+
+
+
+				mapStateToProps
+
+	Функция, которая в параметрах при первом вызове connect.
+
+	Пример mapStateToProps:
+
+			import {connect} from 'react-redux';
+			import PresentComponent from './PresentComponent';
+
+
+			let mapStateToProps = (state)=> ({posts:state.profilePage.posts});		// posts приведен в качестве примера, теперь у нашего презентационного компонента, будет след пропс: {posts: posts}
+
+			const ContainerComponent = connect(mapStateToProps)(PresentComponent)
+
+
+
+
+
+				mapDisptachToProps
+
+	Тоже функция mapStateToProps отвечает за наполнение props-ов функционального компонента.
+
+
+	Также функция, которая возвращает обьект, свойствами будут являться названия callback-ов, которые будут вызваны в презент. компоненте,
+	а значениями будут сами callback-и - которые вызывают disptach, а action берут из глобальной области видимости конт. компонента.
+
+	Пример mapDispatchToProps:
+
+			import {connect} from 'react-redux';
+			import {changeInputActionCreator} from '../../../redux/componentReducer';
+			import PresentationalComponent from './PresentationalComponent';
+
+			
+			let mapDisptachToProps = ()=> {
+							return {
+								changeInput: (text)=> {
+											dispatch(changeInputActionCreator(text))
+											}
+								}
+							}
+
+			connect(mapStateToProps, mapDispatchToProps)(PresentationalComponent);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+				
